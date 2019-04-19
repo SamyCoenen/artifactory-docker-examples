@@ -10,6 +10,13 @@ spec:
         app: artifactory-pro-k8s
         group: artifactory-k8s-demo
     spec:
+      initContainers:
+      - name: volume-mount-chown 
+        image: busybox
+        command: ["sh", "-c", "chown -R 1030:1030 /var/opt/jfrog/artifactory"]
+        volumeMounts:
+        - name: artifactory-pro-volume
+          mountPath: /var/opt/jfrog/artifactory
       containers:
       - name: artifactory-pro-k8s
         image: docker.bintray.io/jfrog/artifactory-pro:6.9.1
